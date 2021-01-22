@@ -40,6 +40,7 @@ for filePath, dirNames, fileNames in os.walk(workPath):
     timeOut=None
     # print(filePath,dirNames,fileNames)
     for fileName in fileNames:
+        noRefNum = False
         if fileName == logFileName:  # 遇到log文件跳过
             continue
         paperFolder=re.search(folderName, filePath).group()  # 匹配文件夹名
