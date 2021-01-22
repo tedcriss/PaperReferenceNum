@@ -34,7 +34,9 @@ fileNamePure=re.compile(r"(.*)(?=\.pdf)")
 citationNumRule=re.compile(r"(?<=^被引)(\d+)(?=_)")
 folderName=re.compile(r"(?<=\\)\w*?$")
 papersProp=[]
+noRefNum=False
 for filePath, dirNames, fileNames in os.walk(workPath):
+    noRefNum=False
     timeOut=None
     # print(filePath,dirNames,fileNames)
     for fileName in fileNames:
@@ -50,6 +52,7 @@ for filePath, dirNames, fileNames in os.walk(workPath):
 
         paperNameRE=re.search(paperNameRule,fileName)   # 匹配论文名
         if paperNameRE==None:
+            noRefNum=True
             fileNamePureRE=re.search(fileNamePure,fileName)
             paperName=fileNamePureRE.group(1)
         else:
@@ -75,7 +78,7 @@ for filePath, dirNames, fileNames in os.walk(workPath):
         papersProp.append([paperFolder, paperName, citeNum_origin, citeNum_new])
         updatedPaper.append(paperName)
         print(papersProp[-1])
-        if (citeNum_new>citeNum_origin):
+        if (citeNum_new>citeNum_origin) or noRefNum:
             os.rename(filePath+"\\"+fileName,\
                       filePath+"\\"+"被引{0}_".format(citeNum_new)+paperName+".pdf")
     if timeOut != None:
