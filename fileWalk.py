@@ -29,7 +29,7 @@ if os.path.isfile(logFile):
 else:
     pass
 xueshuURL=r"http://xueshu.baidu.com/s?wd={0}"
-paperNameRule=re.compile(r"(被引\d+_)(.*)(.pdf)")
+paperNameRule=re.compile(r"(被引\d+_)(.*)(\.pdf)")
 citationNumRule=re.compile(r"(?<=^被引)(\d+)(?=_)")
 folderName=re.compile(r"(?<=\\)\w*?$")
 papersProp=[]
@@ -63,9 +63,9 @@ for filePath, dirNames, fileNames in os.walk(workPath):
         timeOut=xueshuSoup.find(name='div', attrs={"class": "timeout-title"}) # 判断是否限流了
         if timeOut==None:
             if citeCount==None:  # 标签没有出现
-                citeNum_new=0
+                citeNum_new=-1
             else:   # 有标签，匹配其中的数字
-                citeNum_new = int(re.search(r"\d+", \
+                citeNum_new = int(re.search(r"(?<=\s)(\d+)(?=\s)", \
                                             "".join([str(_) for _ in citeCount.contents])\
                                             ).group())
         else:
