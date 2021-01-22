@@ -80,7 +80,7 @@ for filePath, dirNames, fileNames in os.walk(workPath):
         print(papersProp[-1])
         if (citeNum_new>citeNum_origin) or noRefNum:
             os.rename(filePath+"\\"+fileName,\
-                      filePath+"\\"+"被引{0}_".format(citeNum_new)+paperName+".pdf")
+                      filePath+"\\"+"被引{0}_".format(max(citeNum_new,citeNum_origin))+paperName+".pdf")
     if timeOut != None:
         print("坑人百度限流啦，等下再试吧！")
         break
