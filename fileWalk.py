@@ -17,7 +17,7 @@ import time
 路径必须为绝对路径，或者前面包含'.\\'，否则无法识别。
 """
 
-workPath=r".\\testPapers"
+workPath=r".\testPapers"
 logFileName=r"update.log"
 logFile=workPath+"\\"+logFileName
 updatedPaper=[]
@@ -29,7 +29,8 @@ if os.path.isfile(logFile):
 else:
     pass
 xueshuURL=r"http://xueshu.baidu.com/s?wd={0}"
-paperNameRule=re.compile(r"(被引\d+_)(.*)(\.pdf)")
+paperNameRule=re.compile(r"(被引\d+_)(.*)(?=\.pdf)")
+fileNamePure=re.compile(r"(.*)(?=\.pdf)")
 citationNumRule=re.compile(r"(?<=^被引)(\d+)(?=_)")
 folderName=re.compile(r"(?<=\\)\w*?$")
 papersProp=[]
@@ -49,7 +50,8 @@ for filePath, dirNames, fileNames in os.walk(workPath):
 
         paperNameRE=re.search(paperNameRule,fileName)   # 匹配论文名
         if paperNameRE==None:
-            paperName=fileName
+            fileNamePureRE=re.search(fileNamePure,fileName)
+            paperName=fileNamePureRE.group(1)
         else:
             paperName=paperNameRE.group(2)
 
